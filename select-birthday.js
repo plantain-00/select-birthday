@@ -24,6 +24,9 @@
     }
 
     var birthdayYear = $(yearSelector);
+    if (birthdayYear.length == 0) {
+        throw "can not find 'year' select control";
+    }
     for (var y = config.endYear; y > config.endYear - config.yearRange; y--) {
         if (y == config.year) {
             $('<option value="' + y + '" selected="selected">' + y + '</option>').appendTo(birthdayYear);
@@ -33,6 +36,9 @@
     }
 
     var birthdayMonth = $(monthSelector);
+    if (birthdayMonth.length == 0) {
+        throw "can not find 'month' select control";
+    }
     for (var m = 1; m <= 12; m++) {
         if (m == config.month) {
             $('<option value="' + m + '" selected="selected">' + m + '</option>').appendTo(birthdayMonth);
@@ -42,6 +48,9 @@
     }
 
     var birthdayDay = $(daySelector);
+    if (birthdayDay.length == 0) {
+        throw "can not find 'day' select control";
+    }
     for (var d = 1; d <= 31; d++) {
         if (d == config.day) {
             $('<option value="' + d + '" selected="selected">' + d + '</option>').appendTo(birthdayDay);
@@ -50,15 +59,15 @@
         }
     }
 
-    birthdayYear.change(onBirthChange);
-    birthdayMonth.change(onBirthChange);
-    birthdayDay.change(onBirthChange);
+    birthdayYear.change(onBirthdayChanged);
+    birthdayMonth.change(onBirthdayChanged);
+    birthdayDay.change(onBirthdayChanged);
 
     var day29 = birthdayDay.find('option[value="29"]');
     var day30 = birthdayDay.find('option[value="30"]');
     var day31 = birthdayDay.find('option[value="31"]');
 
-    function onBirthChange() {
+    function onBirthdayChanged() {
         var year = parseInt(birthdayYear.val());
         var month = parseInt(birthdayMonth.val());
         var day = parseInt(birthdayDay.val());
@@ -69,7 +78,7 @@
             case 9:
             case 11:
                 if (day > 30) {
-                    setBirthDate(year, month, 30);
+                    birthdayDay.val(30);
                 }
                 day29.show();
                 day30.show();
@@ -78,12 +87,12 @@
             case 2:
                 if (!isLeapYear(year)) {
                     if (day > 28) {
-                        setBirthDate(year, 2, 28);
+                        birthdayDay.val(28);
                     }
                     day29.hide();
                 } else {
                     if (day > 29) {
-                        setBirthDate(year, 2, 29);
+                        birthdayDay.val(29);
                     }
                     day29.show();
                 }
@@ -99,12 +108,6 @@
     }
 
     function isLeapYear(year) {
-        return (0 == year % 4 && (year % 100 != 0 || year % 400 == 0));
-    }
-
-    function setBirthDate(year, month, day) {
-        birthdayYear.val(year);
-        birthdayMonth.val(month);
-        birthdayDay.val(day);
+        return 0 == year % 4 && (year % 100 != 0 || year % 400 == 0);
     }
 }

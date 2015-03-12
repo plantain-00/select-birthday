@@ -1,0 +1,10 @@
+{
+  "name": "select-birthday",
+  "version": "0.0.1",
+  "repository": "https://github.com/plantain-00/select-birthday",
+  "devDependencies": {
+    "gulp": "^3.8.11",
+    "gulp-rename": "^1.2.0",
+    "gulp-uglify": "^1.1.0"
+  }
+}
